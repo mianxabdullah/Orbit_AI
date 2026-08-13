@@ -1,0 +1,8 @@
+streamlit
+groq
+supabase
+pypdf
+python-docx
+uuid 
+datetime
+docx
