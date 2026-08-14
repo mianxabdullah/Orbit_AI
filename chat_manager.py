@@ -31,3 +31,7 @@ def create_chat():
 
     supabase.table("chats").insert(data).execute()
     return chat_id
+
+def load_chat(chat_id):
+    res = supabase.table("chats").select("*").eq("id", chat_id).single().execute()
+    return res.data
