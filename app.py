@@ -27,3 +27,12 @@ if "messages" not in st.session_state:
             }
         ]
 
+# DISPLAY CHAT 
+for message in st.session_state.messages:
+
+    if message["role"] == "system":
+        continue
+
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
