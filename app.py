@@ -73,3 +73,15 @@ if user_input:
     except Exception as e:
         placeholder.error(f"Something went wrong: {e}")
         reply = None
+
+    if reply:
+        st.session_state.messages.append(
+            {
+                "role": "assistant",
+                "content": reply,
+            }
+        )
+
+        chat_data = load_chat(st.session_state.current_chat)
+        chat_data["messages"] = st.session_state.messages
+        save_chat(st.session_state.current_chat, chat_data)
