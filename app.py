@@ -1,6 +1,7 @@
 import streamlit as st
 from chat_manager import create_chat,load_chat,save_chat
-from config import SYSTEM_PROMPT
+from groq_client import stream_response
+from config import SYSTEM_PROMPT,DEFAULT_MODEL as model
 
 st.set_page_config(
     page_title="Orbit",
@@ -59,3 +60,16 @@ if user_input:
         reply = ""
 
     messages = st.session_state.messages.copy() 
+
+    try:
+        response = stream_response(messages, model)
+
+        for chunk in response:
+            text = chunk.choices[0].delta.content
+            if text:
+                reply += text
+                placeholder.markdown(reply)
+
+    except Exception as e:
+        placeholder.error(f"Something went wrong: {e}")
+        reply = None
