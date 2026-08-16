@@ -1,5 +1,5 @@
 import streamlit as st
-from chat_manager import create_chat,load_chat
+from chat_manager import create_chat,load_chat,save_chat
 from config import SYSTEM_PROMPT
 
 st.set_page_config(
@@ -46,3 +46,16 @@ if user_input:
             "content": user_input,
         }
     )
+ 
+    chat_data = load_chat(st.session_state.current_chat) # load the chat data from the database
+    chat_data["messages"] = st.session_state.messages # update the messages in the chat data with the new messages from the session state
+    save_chat(st.session_state.current_chat, chat_data) # save the updated chat data back to the database
+
+    with st.chat_message("user"): 
+        st.markdown(user_input)
+
+    with st.chat_message("assistant"):
+        placeholder = st.empty()
+        reply = ""
+
+    messages = st.session_state.messages.copy() 
