@@ -11,6 +11,18 @@ st.set_page_config(
 
 st.title("Orbit")
 
+st.markdown(   # used to remove the avatars from the chat messages
+    """
+<style>
+[data-testid="stChatMessageAvatarUser"],
+[data-testid="stChatMessageAvatarAssistant"] {
+    display: none;
+}
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
 # INITIALIZE
 if "current_chat" not in st.session_state:
     st.session_state.current_chat = create_chat()
