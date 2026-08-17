@@ -50,3 +50,15 @@ def save_chat(chat_id, data):
 
     data.pop("id", None)  # don't try to update the primary key
     supabase.table("chats").update(data).eq("id", chat_id).execute()
+
+def list_chats():
+    res = supabase.table("chats").select("*").execute()
+    chats = res.data or []
+
+    return sorted(
+        chats,
+        key=lambda chat: (
+            not chat.get("pinned", False),
+            chat["title"].lower()
+        )
+    )
