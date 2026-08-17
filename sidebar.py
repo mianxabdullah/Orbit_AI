@@ -20,3 +20,20 @@ def render_sidebar():
 
         if search:
             chats = [chat for chat in chats if search.lower() in chat["title"].lower()] 
+
+        for chat in chats:
+            col1, col2 = st.columns([9, 1])
+
+            # Chat button
+            with col1:
+                active = chat["id"] == st.session_state.current_chat
+                label = "🟢 " if active else ""
+                
+                if st.button(
+                    label + chat["title"],
+                    key=chat["id"],
+                    use_container_width=True,
+                ):
+                    st.session_state.current_chat = chat["id"]
+                    st.session_state.messages = chat["messages"]
+                    st.rerun()
