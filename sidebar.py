@@ -1,5 +1,5 @@
 import streamlit as st
-from chat_manager import create_chat, load_chat, list_chats, toggle_pin, delete_chat
+from chat_manager import create_chat, load_chat, list_chats, toggle_pin, delete_chat, rename_chat
 
 def render_sidebar():
     
@@ -71,3 +71,16 @@ def render_sidebar():
 
                             st.session_state.pop(confirm_key, None)
                             st.rerun()
+
+                    # Rename button
+                    new_title = st.text_input(
+                        "Rename Chat", value=chat["title"], key=f"title_{chat['id']}"
+                    )
+
+                    if st.button(
+                        "Rename",
+                        key=f"save_{chat['id']}",
+                        use_container_width=True,
+                    ):
+                        rename_chat(chat["id"], new_title)
+                        st.rerun()
