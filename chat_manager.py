@@ -72,3 +72,6 @@ def toggle_pin(chat_id):
 
 def delete_chat(chat_id):
     supabase.table("chats").delete().eq("id", chat_id).execute()
+
+def rename_chat(chat_id, new_title):
+    supabase.table("chats").update({"title": new_title.strip()}).eq("id", chat_id).execute()
