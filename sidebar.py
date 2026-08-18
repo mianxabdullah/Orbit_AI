@@ -1,5 +1,5 @@
 import streamlit as st
-from chat_manager import create_chat, load_chat, list_chats
+from chat_manager import create_chat, load_chat, list_chats, toggle_pin
 
 def render_sidebar():
     
@@ -28,7 +28,7 @@ def render_sidebar():
             with col1:
                 active = chat["id"] == st.session_state.current_chat
                 label = "🟢 " if active else ""
-                
+
                 if st.button(
                     label + chat["title"],
                     key=chat["id"],
@@ -37,3 +37,16 @@ def render_sidebar():
                     st.session_state.current_chat = chat["id"]
                     st.session_state.messages = chat["messages"]
                     st.rerun()
+
+            # Three-dot menu
+            with col2:
+                with st.popover(""):
+                    pin_text = "📌 Unpin" if chat.get("pinned", False) else "Pin"
+
+                    if st.button(
+                        pin_text,
+                        key=f"pin_{chat['id']}",
+                        use_container_width=True,
+                    ):
+                        toggle_pin(chat["id"])
+                        st.rerun()
