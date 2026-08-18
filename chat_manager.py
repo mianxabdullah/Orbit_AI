@@ -68,3 +68,7 @@ def toggle_pin(chat_id):
     current = res.data.get("pinned", False)
 
     supabase.table("chats").update({"pinned": not current}).eq("id", chat_id).execute()
+
+
+def delete_chat(chat_id):
+    supabase.table("chats").delete().eq("id", chat_id).execute()
