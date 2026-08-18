@@ -1,5 +1,5 @@
 import streamlit as st
-from chat_manager import create_chat, load_chat, list_chats, toggle_pin
+from chat_manager import create_chat, load_chat, list_chats, toggle_pin, delete_chat
 
 def render_sidebar():
     
@@ -41,6 +41,7 @@ def render_sidebar():
             # Three-dot menu
             with col2:
                 with st.popover(""):
+                    #Pin/Unpin button
                     pin_text = "📌 Unpin" if chat.get("pinned", False) else "Pin"
 
                     if st.button(
@@ -50,3 +51,23 @@ def render_sidebar():
                     ):
                         toggle_pin(chat["id"])
                         st.rerun()
+
+                    # Delete button    
+                    confirm_key = f"confirm_delete_{chat['id']}"
+
+                    if not st.session_state.get(confirm_key):
+                        if st.button("Delete", key=f"delete_{chat['id']}", use_container_width=True):
+                            st.session_state[confirm_key] = True
+                            st.rerun()
+                    else:
+                        st.write("Delete this chat?")
+                        if st.button("Yes, delete", key=f"yes_{chat['id']}", use_container_width=True):
+                            delete_chat(chat["id"])
+
+                            if chat["id"] == st.session_state.current_chat:
+                                st.session_state.current_chat = create_chat()
+                                data = load_chat(st.session_state.current_chat)
+                                st.session_state.messages = data["messages"]
+
+                            st.session_state.pop(confirm_key, None)
+                            st.rerun()
