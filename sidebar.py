@@ -1,5 +1,6 @@
 import streamlit as st
 from chat_manager import create_chat, load_chat, list_chats, toggle_pin, delete_chat, rename_chat
+from config import DEFAULT_MODEL
 
 def render_sidebar():
     
@@ -84,3 +85,17 @@ def render_sidebar():
                     ):
                         rename_chat(chat["id"], new_title)
                         st.rerun()
+
+        st.divider()
+
+        # Model selection
+        st.subheader("Model")
+        model = st.selectbox(
+            "Choose Model",
+            [
+                DEFAULT_MODEL,
+                "qwen/qwen3.6-27b",
+            ],
+        )     
+
+        return model     
