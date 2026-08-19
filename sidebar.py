@@ -88,6 +88,15 @@ def render_sidebar():
 
         st.divider()
 
+        st.subheader("📎 Upload File")
+        uploaded_file = st.file_uploader(
+            "Choose a file",
+            type=["pdf", "txt", "docx"],
+            key=f"upload_{st.session_state.current_chat}"
+        )
+
+        st.divider()
+
         # Model selection
         st.subheader("Model")
         model = st.selectbox(
@@ -98,4 +107,4 @@ def render_sidebar():
             ],
         )     
 
-        return model     
+        return model,uploaded_file     
