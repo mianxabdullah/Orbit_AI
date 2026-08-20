@@ -72,7 +72,32 @@ for message in st.session_state.messages:
 
 
 # CHAT INPUT
+
+# Read chat_input first so we know this run whether a message is being submitted or not. This is important because we only want to show suggestions when no message is being submitted.
 user_input = st.chat_input("Type your message...")
+
+if "suggested_prompt" in st.session_state: # check if the suggested_prompt is in the session state
+    user_input = st.session_state.pop("suggested_prompt")
+
+# Only show suggestions if there's no message yet AND we're not
+# currently processing a new one (button click or chat_input submit)
+if len(st.session_state.messages) == 1 and not user_input:
+    st.markdown("### 💡 Try asking")
+
+    suggestions = [
+        "Explain quantum computing simply.",
+        "Summarize this document.",
+        "Write a Python function.",
+        "Plan a 7-day trip."
+    ]
+
+    cols = st.columns(2)
+
+    for i, prompt in enumerate(suggestions):
+        with cols[i % 2]:
+            if st.button(prompt, use_container_width=True):
+                st.session_state.suggested_prompt = prompt
+                st.rerun()
 
 if user_input:
     st.session_state.messages.append(
