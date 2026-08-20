@@ -4,12 +4,12 @@ A ChatGPT-style chatbot built with Streamlit and Groq, featuring streaming respo
 
 ## Features
 
-- 💬 Streaming chat responses (Groq API)
-- 📂 Multiple chats with search, pin, rename, and delete (with confirmation)
-- 📄 Upload a PDF, DOCX, or TXT file and ask questions about it
-- 🏷️ Automatic AI-generated chat titles
-- 🗄️ Persistent storage via Supabase (Postgres)
-- 🎛️ Model selection (switch between Groq models)
+-  Streaming chat responses (Groq API)
+-  Multiple chats with search, pin, rename, and delete (with confirmation)
+-  Upload a PDF, DOCX, or TXT file and ask questions about it
+-  Automatic AI-generated chat titles
+-  Persistent storage via Supabase (Postgres)
+-  Model selection (switch between Groq models)
 
 ## Tech Stack
 
