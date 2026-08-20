@@ -2,6 +2,7 @@ import streamlit as st
 from chat_manager import create_chat,load_chat,save_chat
 from groq_client import stream_response
 from config import SYSTEM_PROMPT,DEFAULT_MODEL as model
+from sidebar import render_sidebar
 
 st.set_page_config(
     page_title="Orbit",
@@ -11,7 +12,8 @@ st.set_page_config(
 
 st.title("Orbit")
 
-st.markdown(   # used to remove the avatars from the chat messages
+# used to remove the avatars from the chat messages
+st.markdown(   
     """
 <style>
 [data-testid="stChatMessageAvatarUser"],
@@ -40,6 +42,10 @@ if "messages" not in st.session_state:
             }
         ]
 
+# SIDEBAR
+model, uploaded_file = render_sidebar()
+
+
 # DISPLAY CHAT 
 for message in st.session_state.messages:
 
@@ -48,6 +54,7 @@ for message in st.session_state.messages:
 
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+
 
 # CHAT INPUT
 user_input = st.chat_input("Type your message...")
