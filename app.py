@@ -3,6 +3,7 @@ from chat_manager import create_chat,load_chat,save_chat
 from groq_client import stream_response
 from config import SYSTEM_PROMPT,DEFAULT_MODEL as model
 from sidebar import render_sidebar
+from file_handler import extract_text
 
 st.set_page_config(
     page_title="Orbit",
@@ -44,7 +45,21 @@ if "messages" not in st.session_state:
 
 # SIDEBAR
 model, uploaded_file = render_sidebar()
+chat_data = load_chat(st.session_state.current_chat)
 
+if uploaded_file:
+    if chat_data["document_name"] != uploaded_file.name: # check if the uploaded file is different from the previous one
+        chat_data["document_name"] = uploaded_file.name
+        chat_data["document_text"] = extract_text(uploaded_file)
+        save_chat(st.session_state.current_chat, chat_data)
+
+        # reload updated chat
+        chat_data = load_chat(st.session_state.current_chat)
+
+document_text = chat_data["document_text"] 
+
+if chat_data["document_name"]:
+    st.sidebar.success(f"📄 {chat_data['document_name']}")
 
 # DISPLAY CHAT 
 for message in st.session_state.messages:
