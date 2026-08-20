@@ -1,7 +1,7 @@
 import streamlit as st
 from chat_manager import create_chat, load_chat, save_chat
 from groq_client import stream_response
-from config import SYSTEM_PROMPT, DEFAULT_MODEL as model
+from config import SYSTEM_PROMPT
 from sidebar import render_sidebar
 from file_handler import extract_text
 
@@ -55,6 +55,7 @@ if uploaded_file:
         chat_data = load_chat(st.session_state.current_chat)
 
 document_text = chat_data["document_text"]
+st.sidebar.caption(f"Doc length: {len(document_text) if document_text else 0} chars")
 
 if chat_data["document_name"]:
     st.sidebar.success(f"📄 {chat_data['document_name']}")
